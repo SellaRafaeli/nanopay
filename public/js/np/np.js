@@ -1,7 +1,19 @@
 console.log('loaded np.js');
 
-function addBanner(elem) {
+STYLES = `
+	.np-wrapper {
+		position: relative;
+		display: inline-block;
+	}
+`;
 
+function addStyles() {
+	var css = STYLES;
+  head = document.head || document.getElementsByTagName('head')[0],
+  style = document.createElement('style');
+	head.appendChild(style);
+	style.type = 'text/css';
+  style.appendChild(document.createTextNode(css));
 }
 
 function htmlToElement(html) {
@@ -22,9 +34,25 @@ function getBanner() {
 	return htmlToElement(banner);
 }
 
-function run(elem) {
-	var banner = getBanner();
-	$(elem).append(getBanner())
+function wrapElem(el) {
+	//wraps an elem with <span class="np-wrapper"> so we can position the banner next to it
+	var node = el[0];
+	var parent = node.parentNode;
+	var wrapper = document.createElement('span');
+	wrapper.setAttribute('class','np-wrapper')
+	parent.replaceChild(wrapper, node);
+	wrapper.appendChild(node);
+	return wrapper;
+}
+
+function addBanner(selector, banner){
+	var wrapper = wrapElem(selector);
+	$(wrapper).append(banner)
+}
+
+function run(selector) {
+	addStyles();
+	addBanner($(selector), getBanner());
 }
 
 run('p');
