@@ -12,7 +12,7 @@ Bundler.require
 
 Dotenv.load
 
-$app_name   = 'mindy'
+$app_name   = 'nanopay'
 
 require './setup'
 require './my_lib'
@@ -28,4 +28,8 @@ include Helpers #makes helpers globally available
 
 get '/ping' do
   {msg: "pong from #{$app_name}", val: 'It is always now'}
+end
+
+get '/page' do
+	erb :'page'
 end
